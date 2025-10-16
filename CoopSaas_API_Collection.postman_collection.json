@@ -1,0 +1,1280 @@
+{
+  "info": {
+    "name": "CoopSaas API Collection",
+    "description": "Complete API collection for Cooperative Management System including reporting and analytics",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api/v1",
+      "type": "string"
+    },
+    {
+      "key": "authToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "cooperativeId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "memberId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{authToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "🔐 Authentication",
+      "item": [
+        {
+          "name": "Cooperative Sign Up",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test Cooperative\",\n  \"email\": \"admin@testcoop.com\",\n  \"password\": \"password123\",\n  \"confirmPassword\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/signup",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "signup"]
+            }
+          }
+        },
+        {
+          "name": "Cooperative Sign In",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@testcoop.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/signin",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "signin"]
+            }
+          }
+        },
+        {
+          "name": "Search Cooperative",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/search?search=testcoop",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "search"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "testcoop"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Member Sign In",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"member@testcoop.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/member/signin",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "member", "signin"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "👥 Admin Management",
+      "item": [
+        {
+          "name": "Add Members (Bulk)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/members/bulk",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "members", "bulk"]
+            }
+          }
+        },
+        {
+          "name": "Add Single Member",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstname\": \"John\",\n  \"middlename\": \"Doe\",\n  \"lastname\": \"Smith\",\n  \"email\": \"john.smith@testcoop.com\",\n  \"phone\": \"+2348012345678\",\n  \"dob\": \"1990-01-01\",\n  \"address\": {\n    \"street\": \"123 Main St\",\n    \"city\": \"Lagos\",\n    \"state\": \"Lagos\",\n    \"country\": \"Nigeria\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/members",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "members"]
+            }
+          }
+        },
+        {
+          "name": "Get All Members",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/members?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "members"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get One Member",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/members/{{memberId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "members", "{{memberId}}"]
+            }
+          }
+        },
+        {
+          "name": "Update Member",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstname\": \"John Updated\",\n  \"phone\": \"+2348012345679\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/members/{{memberId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "members", "{{memberId}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Cooperative Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "stats"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📧 Invitation System",
+      "item": [
+        {
+          "name": "Create Invitation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"invite@testcoop.com\",\n  \"firstName\": \"Jane\",\n  \"lastName\": \"Doe\",\n  \"phone\": \"+2348012345680\",\n  \"role\": \"user\",\n  \"message\": \"You are invited to join our cooperative!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/invitations",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "invitations"]
+            }
+          }
+        },
+        {
+          "name": "Get Pending Invitations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/invitations?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "invitations"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Cancel Invitation",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/invitations/{{invitationId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "invitations", "{{invitationId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🏢 Asset Management",
+      "item": [
+        {
+          "name": "Create Asset",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Real Estate Investment\",\n  \"description\": \"Premium real estate investment opportunity\",\n  \"image\": \"https://example.com/real-estate-image.jpg\",\n  \"pricePerUnit\": 100000,\n  \"minUnit\": 1,\n  \"minAmount\": 10000\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/assets",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "assets"]
+            }
+          }
+        },
+        {
+          "name": "Get All Assets",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/assets?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "assets"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Asset by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/assets/{{assetId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "assets", "{{assetId}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "💰 Loan Management",
+      "item": [
+        {
+          "name": "Get Loan Requests",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/loans?page=1&limit=10&status=pending",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "loans"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "status",
+                  "value": "pending"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Approve Loan",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"approvedAmount\": 500000,\n  \"interestRate\": 15,\n  \"term\": 12,\n  \"monthlyPayment\": 45000\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/loans/{{loanId}}/approve",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "loans", "{{loanId}}", "approve"]
+            }
+          }
+        },
+        {
+          "name": "Reject Loan",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rejectionReason\": \"Insufficient credit history\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/loans/{{loanId}}/reject",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "loans", "{{loanId}}", "reject"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "💳 Wallet Management",
+      "item": [
+        {
+          "name": "Get Cooperative Wallets",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/wallets",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "wallets"]
+            }
+          }
+        },
+        {
+          "name": "Get Wallet Balance",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/wallets/balance",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "wallets", "balance"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "⚙️ Cooperative Settings",
+      "item": [
+        {
+          "name": "Get Cooperative Settings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/settings",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "settings"]
+            }
+          }
+        },
+        {
+          "name": "Update Cooperative Settings",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"settings\": {\n    \"loans\": {\n      \"personal_interest_rate\": 18,\n      \"business_interest_rate\": 20,\n      \"max_loan_amount\": 2000000\n    },\n    \"contributions\": {\n      \"min_contribution\": 2000,\n      \"max_contribution\": 20000000\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/settings",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "settings"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "💸 Withdrawal Management",
+      "item": [
+        {
+          "name": "Get Pending Withdrawals",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/admin/withdrawals?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "withdrawals"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Approve Withdrawal",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"approvalNote\": \"Withdrawal approved\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/withdrawals/{{withdrawalId}}/approve",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "withdrawals", "{{withdrawalId}}", "approve"]
+            }
+          }
+        },
+        {
+          "name": "Reject Withdrawal",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rejectionReason\": \"Insufficient funds\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/withdrawals/{{withdrawalId}}/reject",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "withdrawals", "{{withdrawalId}}", "reject"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📊 Financial Reports",
+      "item": [
+        {
+          "name": "Profit & Loss Report",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/financial/profit-loss?startDate=2024-01-01&endDate=2024-12-31",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "financial", "profit-loss"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Export P&L Report (CSV)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/financial/profit-loss/export?startDate=2024-01-01&endDate=2024-12-31",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "financial", "profit-loss", "export"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Balance Sheet Report",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/financial/balance-sheet?asOfDate=2024-12-31",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "financial", "balance-sheet"],
+              "query": [
+                {
+                  "key": "asOfDate",
+                  "value": "2024-12-31"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Export Balance Sheet (CSV)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/financial/balance-sheet/export?asOfDate=2024-12-31",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "financial", "balance-sheet", "export"],
+              "query": [
+                {
+                  "key": "asOfDate",
+                  "value": "2024-12-31"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Cash Flow Report",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/financial/cash-flow?startDate=2024-01-01&endDate=2024-12-31",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "financial", "cash-flow"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "👥 Member Performance Reports",
+      "item": [
+        {
+          "name": "Member Performance Report",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/members/performance?startDate=2024-01-01&endDate=2024-12-31&memberId={{memberId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "members", "performance"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31"
+                },
+                {
+                  "key": "memberId",
+                  "value": "{{memberId}}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Export Member Performance (CSV)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/members/performance/export?startDate=2024-01-01&endDate=2024-12-31&memberId={{memberId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "members", "performance", "export"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31"
+                },
+                {
+                  "key": "memberId",
+                  "value": "{{memberId}}"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "💰 Loan Portfolio Reports",
+      "item": [
+        {
+          "name": "Loan Portfolio Report",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/loans/portfolio?startDate=2024-01-01&endDate=2024-12-31",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "loans", "portfolio"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Export Loan Portfolio (CSV)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/loans/portfolio/export?startDate=2024-01-01&endDate=2024-12-31",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "loans", "portfolio", "export"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📈 Asset Performance Reports",
+      "item": [
+        {
+          "name": "Asset Performance Report",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/assets/performance?startDate=2024-01-01&endDate=2024-12-31",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "assets", "performance"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Export Asset Performance (CSV)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/assets/performance/export?startDate=2024-01-01&endDate=2024-12-31",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "assets", "performance", "export"],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-12-31"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🔧 Custom Report Builder",
+      "item": [
+        {
+          "name": "Build Custom Report",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reportConfig\": {\n    \"metrics\": [\"transactions\", \"loans\"],\n    \"filters\": {\n      \"status\": \"success\"\n    },\n    \"groupBy\": \"type\",\n    \"dateRange\": {\n      \"type\": \"relative\",\n      \"start\": \"30d\",\n      \"end\": \"today\"\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reports/custom/build",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "custom", "build"]
+            }
+          }
+        },
+        {
+          "name": "Export Custom Report (CSV)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reportConfig\": {\n    \"metrics\": [\"transactions\"],\n    \"filters\": {\n      \"status\": \"success\"\n    }\n  },\n  \"filename\": \"custom_transaction_report\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reports/custom/export",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "custom", "export"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📊 Dashboard Reports",
+      "item": [
+        {
+          "name": "Dashboard Summary",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/dashboard/summary?dateRange=30d",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "dashboard", "summary"],
+              "query": [
+                {
+                  "key": "dateRange",
+                  "value": "30d"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "📧 Scheduled Reports",
+      "item": [
+        {
+          "name": "Create Scheduled Report",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Monthly Financial Report\",\n  \"description\": \"Monthly profit and loss report for management\",\n  \"reportType\": \"profit_loss\",\n  \"schedule\": {\n    \"frequency\": \"monthly\",\n    \"dayOfMonth\": 1,\n    \"time\": \"09:00\",\n    \"timezone\": \"UTC\"\n  },\n  \"recipients\": [\n    {\n      \"email\": \"admin@testcoop.com\",\n      \"name\": \"Admin User\",\n      \"role\": \"admin\"\n    }\n  ],\n  \"exportFormat\": \"csv\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reports/scheduled",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "scheduled"]
+            }
+          }
+        },
+        {
+          "name": "Get Scheduled Reports",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/scheduled",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "scheduled"]
+            }
+          }
+        },
+        {
+          "name": "Update Scheduled Report",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"schedule\": {\n    \"frequency\": \"weekly\",\n    \"dayOfWeek\": 1,\n    \"time\": \"10:00\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reports/scheduled/{{scheduledReportId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "scheduled", "{{scheduledReportId}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Scheduled Report",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/scheduled/{{scheduledReportId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "scheduled", "{{scheduledReportId}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Scheduled Report Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reports/scheduled/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "scheduled", "stats"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "👤 Member Operations",
+      "item": [
+        {
+          "name": "Get My Profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/member/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["member", "me"]
+            }
+          }
+        },
+        {
+          "name": "Get My Transactions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/member/my-transactions?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["member", "my-transactions"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get My Portfolio",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/member/portfolio",
+              "host": ["{{baseUrl}}"],
+              "path": ["member", "portfolio"]
+            }
+          }
+        },
+        {
+          "name": "Get My Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/member/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["member", "stats"]
+            }
+          }
+        },
+        {
+          "name": "Get My Activities",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/member/my-activities?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["member", "my-activities"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Request Loan",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 500000,\n  \"purpose\": \"Business expansion\",\n  \"loanType\": \"business\",\n  \"term\": 12,\n  \"termUnit\": \"months\",\n  \"currency\": \"NGN\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/member/loans",
+              "host": ["{{baseUrl}}"],
+              "path": ["member", "loans"]
+            }
+          }
+        },
+        {
+          "name": "Get My Loans",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/member/loans?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["member", "loans"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Buy Asset",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assetId\": \"{{assetId}}\",\n  \"amount\": 100000,\n  \"email\": \"member@testcoop.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/member/assets/buy",
+              "host": ["{{baseUrl}}"],
+              "path": ["member", "assets", "buy"]
+            }
+          }
+        },
+        {
+          "name": "Get My Assets",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/member/assets?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["member", "assets"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Contribute",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 50000,\n  \"email\": \"member@testcoop.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/member/contribute",
+              "host": ["{{baseUrl}}"],
+              "path": ["member", "contribute"]
+            }
+          }
+        },
+        {
+          "name": "Request Withdrawal",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 25000,\n  \"withdrawalType\": \"contribution\",\n  \"reason\": \"Personal expenses\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/member/withdrawals",
+              "host": ["{{baseUrl}}"],
+              "path": ["member", "withdrawals"]
+            }
+          }
+        },
+        {
+          "name": "Get My Withdrawals",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/member/withdrawals?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["member", "withdrawals"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🔗 Webhook Endpoints",
+      "item": [
+        {
+          "name": "Paystack Webhook",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "x-paystack-signature",
+                "value": "{{paystackSignature}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"event\": \"charge.success\",\n  \"data\": {\n    \"id\": 5239215532,\n    \"domain\": \"test\",\n    \"status\": \"success\",\n    \"reference\": \"CNT-19d02857e59946fe8f89aa417184d22a\",\n    \"amount\": 1000000,\n    \"message\": null,\n    \"gateway_response\": \"Successful\",\n    \"paid_at\": \"2025-08-14T23:09:02.000Z\",\n    \"created_at\": \"2025-08-14T23:08:57.000Z\",\n    \"channel\": \"card\",\n    \"currency\": \"NGN\",\n    \"ip_address\": \"102.89.46.202\",\n    \"metadata\": {\n      \"contribution\": \"689e6c8713f731925359a268\",\n      \"wallet\": \"689332a2eb6df606a01cbfef\",\n      \"referrer\": \"http://localhost:5173/\"\n    },\n    \"fees\": 25000,\n    \"customer\": {\n      \"id\": 297561246,\n      \"email\": \"alpha@cyberdyne.com\",\n      \"customer_code\": \"CUS_d1ech8iyksbs52q\"\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/webhook/paystack/webhook",
+              "host": ["{{baseUrl}}"],
+              "path": ["webhook", "paystack", "webhook"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Set environment variables based on response",
+          "if (pm.response && pm.response.json()) {",
+          "    const response = pm.response.json();",
+          "    if (response.data && response.data.token) {",
+          "        pm.environment.set('authToken', response.data.token);",
+          "    }",
+          "    if (response.data && response.data._id) {",
+          "        pm.environment.set('cooperativeId', response.data._id);",
+          "    }",
+          "    if (response.data && response.data.memberId) {",
+          "        pm.environment.set('memberId', response.data.memberId);",
+          "    }",
+          "}"
+        ]
+      }
+    }
+  ]
+}

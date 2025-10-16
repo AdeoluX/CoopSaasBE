@@ -1,0 +1,56 @@
+{
+  "name": "invcoop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "jest": {
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "./test/jest.setup.js"
+    ]
+  },
+  "scripts": {
+    "test": "jest --runInBand --forceExit",
+    "test:watch": "jest --watch",
+    "start": "node start.js",
+    "start:local": "nodemon src/start.js",
+    "dev": "nodemon start.js",
+    "fix:indexes": "node scripts/drop-rc-index.js",
+    "list:indexes": "node scripts/list-indexes.js",
+    "seed:plans": "node seed-plans.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/register": "^7.16.5",
+    "@faker-js/faker": "^8.4.1",
+    "axios": "^1.6.2",
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^2.4.3",
+    "bull": "^4.16.5",
+    "cloudinary": "^1.41.1",
+    "cors": "^2.8.5",
+    "cron-time-generator": "^2.0.3",
+    "csv-parse": "^6.1.0",
+    "csvtojson": "^2.0.10",
+    "exceljs": "^4.4.0",
+    "express": "^4.18.2",
+    "express-fileupload": "^1.4.3",
+    "http-status": "^1.5.0",
+    "joi": "^17.12.2",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.30.1",
+    "mongoose": "^6.8.0",
+    "node-cron": "^3.0.3",
+    "nodemailer": "^6.9.11",
+    "nodemailer-express-handlebars": "^6.1.2",
+    "nodemailer-handlebars": "^1.0.1",
+    "serverless-http": "^2.7.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5",
+    "jest": "^27.3.0",
+    "supertest": "^6.1.6"
+  }
+}

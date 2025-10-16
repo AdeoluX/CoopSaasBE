@@ -1,0 +1,117 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scheduled Report: {{reportName}}</title>
+    <style>
+      body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding:
+      20px; background-color: #f4f4f4; } .container { background-color: #ffffff;
+      padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px
+      rgba(0,0,0,0.1); } .header { text-align: center; border-bottom: 2px solid
+      #007bff; padding-bottom: 20px; margin-bottom: 30px; } .header h1 { color:
+      #007bff; margin: 0; font-size: 24px; } .report-info { background-color:
+      #f8f9fa; padding: 20px; border-radius: 5px; margin-bottom: 20px; }
+      .report-info h3 { margin-top: 0; color: #495057; } .report-info p {
+      margin: 5px 0; } .report-summary { margin: 20px 0; } .report-summary h3 {
+      color: #007bff; border-bottom: 1px solid #dee2e6; padding-bottom: 10px; }
+      .metric { display: flex; justify-content: space-between; padding: 8px 0;
+      border-bottom: 1px solid #eee; } .metric:last-child { border-bottom: none;
+      } .metric-label { font-weight: 600; } .metric-value { color: #007bff;
+      font-weight: 600; } .footer { text-align: center; margin-top: 30px;
+      padding-top: 20px; border-top: 1px solid #dee2e6; color: #6c757d;
+      font-size: 14px; } .next-delivery { background-color: #e7f3ff; padding:
+      15px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #007bff;
+      } .next-delivery h4 { margin: 0 0 10px 0; color: #007bff; }
+      .attachment-notice { background-color: #fff3cd; padding: 15px;
+      border-radius: 5px; margin: 20px 0; border-left: 4px solid #ffc107; }
+      .attachment-notice h4 { margin: 0 0 10px 0; color: #856404; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>📊 {{reportName}}</h1>
+        <p>Scheduled Report Delivery</p>
+      </div>
+
+      <div class="report-info">
+        <h3>📋 Report Information</h3>
+        <p><strong>Report Name:</strong> {{reportName}}</p>
+        <p><strong>Description:</strong> {{reportDescription}}</p>
+        <p><strong>Generated At:</strong> {{generatedAt}}</p>
+        <p><strong>Recipient:</strong> {{recipientName}}</p>
+      </div>
+
+      {{#if reportData}}
+        <div class="report-summary">
+          <h3>📈 Report Summary</h3>
+
+          {{#if reportData.period}}
+            <div class="metric">
+              <span class="metric-label">Period:</span>
+              <span class="metric-value">{{reportData.period.startDate}}
+                -
+                {{reportData.period.endDate}}</span>
+            </div>
+          {{/if}}
+
+          {{#if reportData.netProfit}}
+            <div class="metric">
+              <span class="metric-label">Net Profit:</span>
+              <span class="metric-value">₦{{reportData.netProfit}}</span>
+            </div>
+          {{/if}}
+
+          {{#if reportData.summary}}
+            <div class="metric">
+              <span class="metric-label">Total Loans:</span>
+              <span
+                class="metric-value"
+              >{{reportData.summary.totalLoans}}</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Total Assets:</span>
+              <span
+                class="metric-value"
+              >{{reportData.summary.totalAssets}}</span>
+            </div>
+          {{/if}}
+
+          {{#if reportData.financial}}
+            <div class="metric">
+              <span class="metric-label">Total Assets:</span>
+              <span
+                class="metric-value"
+              >₦{{reportData.financial.totalAssets}}</span>
+            </div>
+            <div class="metric">
+              <span class="metric-label">Member Equity:</span>
+              <span
+                class="metric-value"
+              >₦{{reportData.financial.memberEquity}}</span>
+            </div>
+          {{/if}}
+        </div>
+      {{/if}}
+
+      <div class="next-delivery">
+        <h4>🕒 Next Delivery</h4>
+        <p>Your next scheduled report will be delivered on:
+          <strong>{{nextDelivery}}</strong></p>
+      </div>
+
+      <div class="attachment-notice">
+        <h4>📎 Report Attachment</h4>
+        <p>This report has been attached to this email in CSV format for your
+          convenience.</p>
+      </div>
+
+      <div class="footer">
+        <p>This is an automated report from your Cooperative Management System.</p>
+        <p>If you have any questions, please contact your system administrator.</p>
+        <p>&copy; 2024 Cooperative Management System. All rights reserved.</p>
+      </div>
+    </div>
+  </body>
+</html>
