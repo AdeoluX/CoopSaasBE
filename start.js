@@ -1,5 +1,5 @@
 const { app, connectDB } = require("./app");
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 7999;
 
 console.log(PORT);
 app.listen(PORT, "0.0.0.0", (err) => {
