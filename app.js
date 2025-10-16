@@ -12,7 +12,7 @@ require("./src/models");
 // const {ajocron} = require('./src/cron-server')
 
 // Initialize database connection
-connectDB;
+// connectDB;
 
 const { errorConverter, errorHandler } = require("./src/middleware/error");
 const {
@@ -52,4 +52,4 @@ app.use((req, res, next) => {
 app.use(errorConverter);
 app.use(errorHandler);
 
-module.exports = { app };
+module.exports = { app, connectDB };
