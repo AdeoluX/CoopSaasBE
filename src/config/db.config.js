@@ -18,7 +18,10 @@ const connectDB = async () => {
         connectTimeoutMS: 10000, // Give up initial connection after 10s
       }
     );
-    console.log("Database connection established successfully");
+    console.log(
+      "Database connection established successfully",
+      process.env.PORT
+    );
     return mongo;
   } catch (error) {
     // Log error without sensitive information
