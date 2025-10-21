@@ -18,6 +18,7 @@ const { abortIf } = require("../utils/responder");
 const httpStatus = require("http-status");
 const sendEmail = require("../utils/email.util");
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
 // Helper function to properly handle errors
 const handleServiceError = (error, operation) => {
@@ -65,6 +66,12 @@ const generatePassword = () => {
   return result;
 };
 
+// Hash password function
+const hashPassword = async (password) => {
+  const salt = await bcrypt.genSalt(10);
+  return await bcrypt.hash(password, salt);
+};
+
 class AdminService {
   static async addMembers({ cooperativeId, data, file }) {
     try {
@@ -104,9 +111,11 @@ class AdminService {
               email.includes("@") // Basic email validation
             );
           })
-          .map((memberData) => {
+          .map(async (memberData) => {
             const { firstname, email, phone, role, middlename, dob, lastname } =
               memberData;
+            const plainPassword = "123456789";
+            const hashedPassword = await hashPassword(plainPassword);
             return {
               firstname: firstname.trim(),
               email: email.trim().toLowerCase(),
@@ -115,12 +124,14 @@ class AdminService {
               middlename: middlename?.trim() || "",
               lastname: lastname?.trim() || "",
               dob: dob || null,
-              password: generatePassword(), // Generate random 8-char password
+              password: hashedPassword, // Hashed password
               cooperativeId,
             };
           });
 
-        if (membersData.length === 0) {
+        const processedMembersData = await Promise.all(membersData);
+
+        if (processedMembersData.length === 0) {
           throw new Error("No valid records found in the CSV file.");
         }
 
@@ -128,8 +139,8 @@ class AdminService {
         const CHUNK_SIZE = 1000;
         let allCreatedMembers = [];
 
-        for (let i = 0; i < membersData.length; i += CHUNK_SIZE) {
-          const chunk = membersData.slice(i, i + CHUNK_SIZE);
+        for (let i = 0; i < processedMembersData.length; i += CHUNK_SIZE) {
+          const chunk = processedMembersData.slice(i, i + CHUNK_SIZE);
           const createdChunk = await MemberRepo.insertMany(chunk);
           allCreatedMembers = allCreatedMembers.concat(createdChunk);
         }
@@ -163,6 +174,9 @@ class AdminService {
           );
         }
 
+        const plainPassword = "123456789";
+        const hashedPassword = await hashPassword(plainPassword);
+
         const createMember = await MemberRepo.create({
           firstname: firstname.trim(),
           email: email.trim().toLowerCase(),
@@ -171,7 +185,7 @@ class AdminService {
           middlename: middlename?.trim() || "",
           lastname: lastname?.trim() || "",
           dob: dob || null,
-          password: generatePassword(), // Generate random 8-char password
+          password: hashedPassword, // Hashed password
           cooperativeId,
         });
 
